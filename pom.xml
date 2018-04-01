@@ -3,14 +3,30 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.pocketkid2</groupId>
-	<artifactId>Database</artifactId>
+	<artifactId>database</artifactId>
 	<version>0.0.1-ALPHA</version>
 	<name>Database</name>
 	<description>A plugin for interfacing with and managing a MySQL server and providing an API for other plugins</description>
 	<properties>
+		<author>Pocketkid2</author>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	<packaging>jar</packaging>
+	<build>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>plugin.yml</include>
+					<include>config.yml</include>
+				</includes>
+			</resource>
+		</resources>
+		<finalName>${project.name}</finalName>
+	</build>
 	<repositories>
 		<repository>
 			<id>spigot-repo</id>
