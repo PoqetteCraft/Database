@@ -1,0 +1,15 @@
+name: ${name}
+version: ${version}
+main: ${groupId}.${artifactId}.${name}Plugin
+description: ${description}
+author: ${author}
+commands:
+    database:
+        description: Base command
+        usage: /<command> [connect|reconnect|disconnect]
+        aliases: db
+        permission: database.command
+permissions:
+    database.command:
+        description: Base permission
+        default: op
