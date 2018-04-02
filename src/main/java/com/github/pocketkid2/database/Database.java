@@ -2,7 +2,9 @@ package com.github.pocketkid2.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,12 +26,12 @@ public class Database {
 	// The values for connection
 	private static Settings settings;
 
-	/**
+	/*
+	 * INTERNAL API
+	 *
 	 * Called by the first instance of DatabasePlugin, used to initialize this
 	 * Database instance with config values and such
 	 *
-	 * @param plugin
-	 * @param settings
 	 */
 	protected static void initialize(DatabasePlugin plugin, Settings settings) {
 		Database.plugin = plugin;
@@ -38,31 +40,24 @@ public class Database {
 		Database.connect();
 	}
 
-	/**
-	 * Any plugin that extends DatabasePlugin needs to register with this method.
-	 * This will also give the initial condition of the plugin.
+	/*
+	 * INTERNAL API
 	 *
-	 * @param pl
-	 */
-	public static void register(DatabasePlugin pl) {
-		registeredPlugins.add(pl);
-		pl.setOnline(Database.plugin.isOnline());
-	}
-
-	/**
-	 * Internal API for getting registered plugins
+	 * Returns a set of all registered plugins
 	 *
-	 * @return
 	 */
 	protected static Set<DatabasePlugin> getRegisteredPlugins() {
 		return registeredPlugins;
 	}
 
-	/**
+	/*
+	 * INTERNAL API
+	 *
 	 * Attempts to connect to the database, given that the database is in a
 	 * disabled/disconnected state.
 	 *
-	 * If successful, notifies all registered plugins.
+	 * If successful, notifies all registered plugins
+	 *
 	 */
 	protected static void connect() {
 		// Must be in a disabled state
@@ -83,10 +78,13 @@ public class Database {
 		}
 	}
 
-	/**
+	/*
+	 * INTERNAL API
+	 *
 	 * Disconnects from the database, assuming that the connection is live.
 	 *
-	 * Notifies all registered plugins.
+	 * Notifies all registered plugins
+	 *
 	 */
 	protected static void disconnect() {
 		// Must be in an enabled state
@@ -102,6 +100,53 @@ public class Database {
 			for (DatabasePlugin pl : registeredPlugins) {
 				pl.setOnline(plugin.isOnline());
 			}
+		}
+	}
+
+	/**
+	 * PUBLIC API
+	 *
+	 * Any plugin that extends DatabasePlugin needs to register with this method.
+	 * This will also give the initial condition of the plugin.
+	 *
+	 * @param pl
+	 */
+	public static void register(DatabasePlugin pl) {
+		registeredPlugins.add(pl);
+		pl.setOnline(Database.plugin.isOnline());
+	}
+
+	/**
+	 * PUBLIC API
+	 *
+	 * Creates a prepared statement with the given SQL string and returns it
+	 *
+	 * @param sql
+	 *            A string with the full statement (question marks for variables)
+	 * @return The prepared statement
+	 */
+	public static PreparedStatement prepare(String sql) {
+		try {
+			return connection.prepareStatement(sql);
+		} catch (SQLException e) {
+			plugin.getLogger().severe("Error creating prepared statement, please check connection!");
+			return null;
+		}
+	}
+
+	/**
+	 * PUBLIC API
+	 *
+	 * Creates a regular statement and returns it
+	 *
+	 * @return The statement
+	 */
+	public static Statement create() {
+		try {
+			return connection.createStatement();
+		} catch (SQLException e) {
+			plugin.getLogger().severe("Error creating statement, please check connection!");
+			return null;
 		}
 	}
 
