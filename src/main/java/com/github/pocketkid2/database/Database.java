@@ -50,6 +50,15 @@ public class Database {
 	}
 
 	/**
+	 * Internal API for getting registered plugins
+	 * 
+	 * @return
+	 */
+	protected static Set<DatabasePlugin> getRegisteredPlugins() {
+		return registeredPlugins;
+	}
+
+	/**
 	 * Attempts to connect to the database, given that the database is in a
 	 * disabled/disconnected state.
 	 *

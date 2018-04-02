@@ -23,6 +23,10 @@ public class DatabasePlugin extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		// Disconnect if need be
+		if (active) {
+			Database.disconnect();
+		}
 		// We're done
 		getLogger().info("Done!");
 	}

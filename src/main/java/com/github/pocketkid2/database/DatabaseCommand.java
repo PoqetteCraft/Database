@@ -1,5 +1,9 @@
 package com.github.pocketkid2.database;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -64,6 +68,17 @@ public class DatabaseCommand implements CommandExecutor {
 						sender.sendMessage("Reconnection unsuccessful!");
 					}
 				}
+			} else if (args[0].equalsIgnoreCase("plugins") || args[0].equalsIgnoreCase("pl")) {
+				// Display list of currently registered plugins
+				StringBuilder sb = new StringBuilder();
+				Set<DatabasePlugin> plugins = Database.getRegisteredPlugins();
+				sb.append(String.format("Database Plugins (%d): ", plugins.size()));
+				List<String> names = new ArrayList<String>();
+				for (DatabasePlugin p : plugins) {
+					names.add((p.isActive() ? (ChatColor.GREEN) : (ChatColor.RED)) + p.getName());
+				}
+				sb.append(String.join(ChatColor.RESET + ", ", names));
+				sender.sendMessage(sb.toString());
 			} else {
 				return false;
 			}
