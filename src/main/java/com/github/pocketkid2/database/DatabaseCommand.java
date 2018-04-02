@@ -26,7 +26,7 @@ public class DatabaseCommand implements CommandExecutor {
 			return false;
 		} else if (args.length == 1) {
 			// Read argument
-			if (args[0].equalsIgnoreCase("connect")) {
+			if (args[0].equalsIgnoreCase("connect") || args[0].equalsIgnoreCase("con")) {
 				// Check current state
 				if (plugin.isActive()) {
 					sender.sendMessage("The database is already online!");
@@ -40,7 +40,7 @@ public class DatabaseCommand implements CommandExecutor {
 						sender.sendMessage("Connection unsuccessful!");
 					}
 				}
-			} else if (args[0].equalsIgnoreCase("disconnect")) {
+			} else if (args[0].equalsIgnoreCase("disconnect") || args[0].equalsIgnoreCase("discon")) {
 				// Check current state
 				if (!plugin.isActive()) {
 					sender.sendMessage("The database is already offline!");
@@ -49,7 +49,7 @@ public class DatabaseCommand implements CommandExecutor {
 					Database.disconnect();
 					sender.sendMessage("Disconnected!");
 				}
-			} else if (args[0].equalsIgnoreCase("reconnect")) {
+			} else if (args[0].equalsIgnoreCase("reconnect") || args[0].equalsIgnoreCase("recon")) {
 				// Check current state
 				if (!plugin.isActive()) {
 					sender.sendMessage("The database is offline! Try /" + label + " connect");
