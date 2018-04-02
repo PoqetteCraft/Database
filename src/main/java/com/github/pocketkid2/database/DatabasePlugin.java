@@ -31,7 +31,7 @@ public class DatabasePlugin extends JavaPlugin {
 		getLogger().info("Done!");
 	}
 
-	/*
+	/**
 	 * Returns true if the plugin is enabled/active/ready to work
 	 *
 	 * For the base plugin, this is used to determine if the connection is alive
@@ -39,14 +39,16 @@ public class DatabasePlugin extends JavaPlugin {
 	 * For extended plugins, use this when deciding if certain plugin features are
 	 * allowed to operate
 	 *
+	 * @return
 	 */
 	public boolean isOnline() {
 		return online;
 	}
 
-	/*
+	/**
 	 * Changes the current activation status as returned by isActive()
 	 *
+	 * @param active
 	 */
 	protected void setOnline(boolean online) {
 		this.online = online;

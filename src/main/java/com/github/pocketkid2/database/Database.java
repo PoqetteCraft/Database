@@ -24,14 +24,12 @@ public class Database {
 	// The values for connection
 	private static Settings settings;
 
-	/*
+	/**
+	 * Called by the first instance of DatabasePlugin, used to initialize this
+	 * Database instance with config values and such
 	 *
-	 * INTERNAL API Called by the first instance of DatabasePlugin, used to
-	 * initialize this Database instance with config values and such
-	 *
-	 * @param plugin The instance of the base plugin class
-	 * 
-	 * @param settings The container class for the connection values
+	 * @param plugin
+	 * @param settings
 	 */
 	protected static void initialize(DatabasePlugin plugin, Settings settings) {
 		Database.plugin = plugin;
@@ -45,17 +43,16 @@ public class Database {
 	 * This will also give the initial condition of the plugin.
 	 *
 	 * @param pl
-	 *            The plugin instance to register
 	 */
 	public static void register(DatabasePlugin pl) {
 		registeredPlugins.add(pl);
 		pl.setOnline(Database.plugin.isOnline());
 	}
 
-	/*
+	/**
 	 * Internal API for getting registered plugins
 	 *
-	 * @return The list of registered plugins
+	 * @return
 	 */
 	protected static Set<DatabasePlugin> getRegisteredPlugins() {
 		return registeredPlugins;
