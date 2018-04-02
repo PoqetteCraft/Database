@@ -34,6 +34,7 @@ public class Database {
 	protected static void initialize(DatabasePlugin plugin, Settings settings) {
 		Database.plugin = plugin;
 		Database.settings = settings;
+		Database.registeredPlugins = new HashSet<DatabasePlugin>();
 		Database.connect();
 	}
 
@@ -44,9 +45,6 @@ public class Database {
 	 * @param pl
 	 */
 	public static void register(DatabasePlugin pl) {
-		if (registeredPlugins == null) {
-			registeredPlugins = new HashSet<DatabasePlugin>();
-		}
 		registeredPlugins.add(pl);
 		pl.setActive(Database.plugin.isActive());
 	}
@@ -62,7 +60,7 @@ public class Database {
 		if (!plugin.isActive()) {
 			// Grab the URL and user/pass
 			try {
-				connection = DriverManager.getConnection(settings.getURL(), settings.getURL(), settings.getPassword());
+				connection = DriverManager.getConnection(settings.getURL(), settings.getUsername(), settings.getPassword());
 				plugin.setActive(true);
 				plugin.getLogger().info("Connected to the database!");
 			} catch (SQLException e) {
