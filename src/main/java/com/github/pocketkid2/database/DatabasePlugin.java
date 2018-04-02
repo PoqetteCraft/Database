@@ -5,12 +5,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class DatabasePlugin extends JavaPlugin {
 
 	// Whether the connection is alive or not
-	private boolean active;
+	private boolean online;
 
 	@Override
 	public void onEnable() {
 		// On startup, we are not connected
-		active = false;
+		online = false;
 		// Create the config file if it doesn't exist
 		saveDefaultConfig();
 		// Initialize the database with the settings in the config
@@ -24,7 +24,7 @@ public class DatabasePlugin extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		// Disconnect if need be
-		if (active) {
+		if (online) {
 			Database.disconnect();
 		}
 		// We're done
@@ -41,8 +41,8 @@ public class DatabasePlugin extends JavaPlugin {
 	 *
 	 * @return
 	 */
-	public boolean isActive() {
-		return active;
+	public boolean isOnline() {
+		return online;
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class DatabasePlugin extends JavaPlugin {
 	 *
 	 * @param active
 	 */
-	public void setActive(boolean active) {
-		this.active = active;
+	public void setOnline(boolean online) {
+		this.online = online;
 	}
 }

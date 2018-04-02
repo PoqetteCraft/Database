@@ -26,19 +26,19 @@ public class DatabaseCommand implements CommandExecutor {
 			PluginDescriptionFile pdf = plugin.getDescription();
 			sender.sendMessage(pdf.getFullName());
 			sender.sendMessage("Author: " + String.join(", ", pdf.getAuthors()));
-			sender.sendMessage("Current database status: " + (plugin.isActive() ? (ChatColor.GREEN + "online") : (ChatColor.RED + "offline")));
+			sender.sendMessage("Current database status: " + (plugin.isOnline() ? (ChatColor.GREEN + "online") : (ChatColor.RED + "offline")));
 			return false;
 		} else if (args.length == 1) {
 			// Read argument
 			if (args[0].equalsIgnoreCase("connect") || args[0].equalsIgnoreCase("con")) {
 				// Check current state
-				if (plugin.isActive()) {
+				if (plugin.isOnline()) {
 					sender.sendMessage("The database is already online!");
 				} else {
 					// Attempt connection
 					Database.connect();
 					// And display the results
-					if (plugin.isActive()) {
+					if (plugin.isOnline()) {
 						sender.sendMessage("Connection successful!");
 					} else {
 						sender.sendMessage("Connection unsuccessful!");
@@ -46,7 +46,7 @@ public class DatabaseCommand implements CommandExecutor {
 				}
 			} else if (args[0].equalsIgnoreCase("disconnect") || args[0].equalsIgnoreCase("discon")) {
 				// Check current state
-				if (!plugin.isActive()) {
+				if (!plugin.isOnline()) {
 					sender.sendMessage("The database is already offline!");
 				} else {
 					// Disconnect
@@ -55,14 +55,14 @@ public class DatabaseCommand implements CommandExecutor {
 				}
 			} else if (args[0].equalsIgnoreCase("reconnect") || args[0].equalsIgnoreCase("recon")) {
 				// Check current state
-				if (!plugin.isActive()) {
+				if (!plugin.isOnline()) {
 					sender.sendMessage("The database is offline! Try /" + label + " connect");
 				} else {
 					// Attempt reconnection
 					Database.disconnect();
 					Database.connect();
 					// Read off results
-					if (plugin.isActive()) {
+					if (plugin.isOnline()) {
 						sender.sendMessage("Reconnection successful!");
 					} else {
 						sender.sendMessage("Reconnection unsuccessful!");
@@ -75,7 +75,7 @@ public class DatabaseCommand implements CommandExecutor {
 				sb.append(String.format("Database Plugins (%d): ", plugins.size()));
 				List<String> names = new ArrayList<String>();
 				for (DatabasePlugin p : plugins) {
-					names.add((p.isActive() ? (ChatColor.GREEN) : (ChatColor.RED)) + p.getName());
+					names.add((p.isOnline() ? (ChatColor.GREEN) : (ChatColor.RED)) + p.getName());
 				}
 				sb.append(String.join(ChatColor.RESET + ", ", names));
 				sender.sendMessage(sb.toString());

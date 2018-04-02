@@ -46,12 +46,12 @@ public class Database {
 	 */
 	public static void register(DatabasePlugin pl) {
 		registeredPlugins.add(pl);
-		pl.setActive(Database.plugin.isActive());
+		pl.setOnline(Database.plugin.isOnline());
 	}
 
 	/**
 	 * Internal API for getting registered plugins
-	 * 
+	 *
 	 * @return
 	 */
 	protected static Set<DatabasePlugin> getRegisteredPlugins() {
@@ -66,19 +66,19 @@ public class Database {
 	 */
 	protected static void connect() {
 		// Must be in a disabled state
-		if (!plugin.isActive()) {
+		if (!plugin.isOnline()) {
 			// Grab the URL and user/pass
 			try {
 				connection = DriverManager.getConnection(settings.getURL(), settings.getUsername(), settings.getPassword());
-				plugin.setActive(true);
+				plugin.setOnline(true);
 				plugin.getLogger().info("Connected to the database!");
 			} catch (SQLException e) {
-				plugin.setActive(false);
+				plugin.setOnline(false);
 				plugin.getLogger().severe("Could not connect to the database!");
 			}
 			// Now update all registered plugins
 			for (DatabasePlugin pl : registeredPlugins) {
-				pl.setActive(plugin.isActive());
+				pl.setOnline(plugin.isOnline());
 			}
 		}
 	}
@@ -90,7 +90,7 @@ public class Database {
 	 */
 	protected static void disconnect() {
 		// Must be in an enabled state
-		if (plugin.isActive()) {
+		if (plugin.isOnline()) {
 			try {
 				connection.close();
 				plugin.getLogger().info("Disconnected successfully!");
@@ -98,9 +98,9 @@ public class Database {
 				plugin.getLogger().severe("Disconnection failure!");
 			}
 			// Update all plugins
-			plugin.setActive(false);
+			plugin.setOnline(false);
 			for (DatabasePlugin pl : registeredPlugins) {
-				pl.setActive(plugin.isActive());
+				pl.setOnline(plugin.isOnline());
 			}
 		}
 	}
