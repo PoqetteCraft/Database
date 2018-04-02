@@ -21,7 +21,7 @@ public class DatabaseCommand implements CommandExecutor {
 			// Show status/info to user
 			PluginDescriptionFile pdf = plugin.getDescription();
 			sender.sendMessage(pdf.getFullName());
-			sender.sendMessage("By " + String.join(", ", pdf.getAuthors()));
+			sender.sendMessage("Author: " + String.join(", ", pdf.getAuthors()));
 			sender.sendMessage("Current database status: " + (plugin.isActive() ? (ChatColor.GREEN + "online") : (ChatColor.RED + "offline")));
 			return false;
 		} else if (args.length == 1) {
