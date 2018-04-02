@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.pocketkid2</groupId>
 	<artifactId>database</artifactId>
-	<version>0.0.1-ALPHA</version>
+	<version>0.1.0-BETA</version>
 	<name>Database</name>
 	<description>A plugin for interfacing with and managing a MySQL server and providing an API for other plugins</description>
 	<properties>
