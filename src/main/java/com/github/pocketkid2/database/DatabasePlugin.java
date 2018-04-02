@@ -50,7 +50,7 @@ public class DatabasePlugin extends JavaPlugin {
 	 *
 	 * @param active
 	 */
-	public void setOnline(boolean online) {
+	protected void setOnline(boolean online) {
 		this.online = online;
 	}
 }
