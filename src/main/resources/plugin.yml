@@ -7,7 +7,7 @@ commands:
     database:
         description: Base command
         usage: /<command> [connect|reconnect|disconnect|plugins]
-        aliases: db
+        aliases: [db, connect, disconnect, reconnect]
         permission: database.command
 permissions:
     database.command:
