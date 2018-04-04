@@ -53,6 +53,21 @@ public class Database {
 	/*
 	 * INTERNAL API
 	 *
+	 * Queries the server to see if it is alive
+	 *
+	 */
+	protected static boolean validate(int timeout) {
+		try {
+			return connection.isValid(timeout);
+		} catch (SQLException e) {
+			plugin.getLogger().severe("Timeout value is less than 0!");
+			return false;
+		}
+	}
+
+	/*
+	 * INTERNAL API
+	 *
 	 * Attempts to connect to the database, given that the database is in a
 	 * disabled/disconnected state.
 	 *

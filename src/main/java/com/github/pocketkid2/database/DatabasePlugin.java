@@ -1,11 +1,20 @@
 package com.github.pocketkid2.database;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 public class DatabasePlugin extends JavaPlugin {
 
+	private static final int TICKS_PER_SECOND = 20;
+
 	// Whether the connection is alive or not
 	private boolean online;
+
+	// The settings class
+	private Settings settings;
+
+	// The scheduled validation task
+	private BukkitTask task;
 
 	@Override
 	public void onEnable() {
@@ -13,16 +22,23 @@ public class DatabasePlugin extends JavaPlugin {
 		online = false;
 		// Create the config file if it doesn't exist
 		saveDefaultConfig();
+		// Populate the settings class
+		settings = new Settings(getConfig());
 		// Initialize the database with the settings in the config
-		Database.initialize(this, new Settings(getConfig()));
+		Database.initialize(this, settings);
 		// Register the command
 		getCommand("database").setExecutor(new DatabaseCommand(this));
+		// Schedule the validation task
+		ValidationTask vt = new ValidationTask(this, settings.getTimeout());
+		task = vt.runTaskTimerAsynchronously(this, 0, settings.getRepeat() * TICKS_PER_SECOND);
 		// We're done
 		getLogger().info("Done!");
 	}
 
 	@Override
 	public void onDisable() {
+		// Cancel the validation task
+		task.cancel();
 		// Disconnect if need be
 		if (online) {
 			Database.disconnect();

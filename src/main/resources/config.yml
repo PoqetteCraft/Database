@@ -2,9 +2,16 @@
 #   Configuration File for Database plugin!
 # -------------------------------------------
 
+# Server connection values
 connection:
     host: "127.0.0.1"
     port: "3306"
     user: "plugin"
     pass: "spigot"
     db: "minecraft"
+    
+# How many seconds to wait for the database to respond before considering it disconnected?
+validation-timeout: 5
+
+# How often should we validate the server connection? (in seconds)
+validation-repeat: 60
