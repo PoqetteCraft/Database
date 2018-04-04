@@ -81,7 +81,6 @@ public class Database {
 			try {
 				connection = DriverManager.getConnection(settings.getURL(), settings.getUsername(), settings.getPassword());
 				plugin.setOnline(true);
-				plugin.getServer().getPluginManager().callEvent(new DatabaseConnectEvent());
 				plugin.getLogger().info("Connected to the database!");
 			} catch (SQLException e) {
 				plugin.setOnline(false);
@@ -107,7 +106,6 @@ public class Database {
 		if (plugin.isOnline()) {
 			try {
 				connection.close();
-				plugin.getServer().getPluginManager().callEvent(new DatabaseDisconnectEvent());
 				plugin.getLogger().info("Disconnected successfully!");
 			} catch (SQLException e) {
 				plugin.getLogger().severe("Disconnection failure!");
