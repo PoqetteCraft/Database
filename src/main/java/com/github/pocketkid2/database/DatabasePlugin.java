@@ -57,7 +57,7 @@ public class DatabasePlugin extends JavaPlugin {
 	 *
 	 * @return
 	 */
-	public boolean isOnline() {
+	protected boolean isOnline() {
 		return online;
 	}
 

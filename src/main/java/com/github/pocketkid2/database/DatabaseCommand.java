@@ -8,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -104,11 +105,11 @@ public class DatabaseCommand implements CommandExecutor {
 	private void plugins(CommandSender sender) {
 		// Display list of currently registered plugins
 		StringBuilder sb = new StringBuilder();
-		Set<DatabasePlugin> plugins = Database.getRegisteredPlugins();
+		Set<JavaPlugin> plugins = Database.getRegisteredPlugins();
 		sb.append(String.format("Database Plugins (%d): ", plugins.size()));
 		List<String> names = new ArrayList<String>();
-		for (DatabasePlugin p : plugins) {
-			names.add((p.isOnline() ? (ChatColor.GREEN) : (ChatColor.RED)) + p.getName());
+		for (JavaPlugin p : plugins) {
+			names.add((p.isEnabled() ? (ChatColor.GREEN) : (ChatColor.RED)) + p.getName());
 		}
 		sb.append(String.join(ChatColor.RESET + ", ", names));
 		sender.sendMessage(sb.toString());

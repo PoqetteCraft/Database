@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.bukkit.plugin.java.JavaPlugin;
+
 /**
  * The main API class, used as a singleton. All API calls should be made through
  * this.
@@ -20,7 +22,7 @@ public class Database {
 	// The instance of the main class, used for determining current status
 	private static DatabasePlugin plugin;
 	// A list of all registered plugins
-	private static Set<DatabasePlugin> registeredPlugins;
+	private static Set<JavaPlugin> registeredPlugins;
 	// The database connection
 	private static Connection connection;
 	// The values for connection
@@ -36,7 +38,7 @@ public class Database {
 	protected static void initialize(DatabasePlugin plugin, Settings settings) {
 		Database.plugin = plugin;
 		Database.settings = settings;
-		Database.registeredPlugins = new HashSet<DatabasePlugin>();
+		Database.registeredPlugins = new HashSet<JavaPlugin>();
 		Database.connect();
 	}
 
@@ -46,7 +48,7 @@ public class Database {
 	 * Returns a set of all registered plugins
 	 *
 	 */
-	protected static Set<DatabasePlugin> getRegisteredPlugins() {
+	protected static Set<JavaPlugin> getRegisteredPlugins() {
 		return registeredPlugins;
 	}
 
@@ -87,8 +89,8 @@ public class Database {
 				plugin.getLogger().severe("Could not connect to the database!");
 			}
 			// Now update all registered plugins
-			for (DatabasePlugin pl : registeredPlugins) {
-				pl.setOnline(plugin.isOnline());
+			for (JavaPlugin pl : registeredPlugins) {
+				pl.getPluginLoader().enablePlugin(pl);
 			}
 		}
 	}
@@ -112,8 +114,8 @@ public class Database {
 			}
 			// Update all plugins
 			plugin.setOnline(false);
-			for (DatabasePlugin pl : registeredPlugins) {
-				pl.setOnline(plugin.isOnline());
+			for (JavaPlugin pl : registeredPlugins) {
+				pl.getPluginLoader().disablePlugin(pl);
 			}
 		}
 	}
@@ -126,9 +128,13 @@ public class Database {
 	 *
 	 * @param pl
 	 */
-	public static void register(DatabasePlugin pl) {
+	public static void register(JavaPlugin pl) {
 		registeredPlugins.add(pl);
-		pl.setOnline(Database.plugin.isOnline());
+		if (plugin.isOnline()) {
+			pl.getPluginLoader().enablePlugin(pl);
+		} else {
+			pl.getPluginLoader().disablePlugin(pl);
+		}
 	}
 
 	/**
