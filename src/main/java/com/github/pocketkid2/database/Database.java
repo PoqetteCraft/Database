@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -90,7 +91,7 @@ public class Database {
 			}
 			// Now update all registered plugins
 			for (JavaPlugin pl : registeredPlugins) {
-				pl.getPluginLoader().enablePlugin(pl);
+				Bukkit.getPluginManager().enablePlugin(pl);
 			}
 		}
 	}
@@ -115,7 +116,7 @@ public class Database {
 			// Update all plugins
 			plugin.setOnline(false);
 			for (JavaPlugin pl : registeredPlugins) {
-				pl.getPluginLoader().disablePlugin(pl);
+				Bukkit.getPluginManager().disablePlugin(pl);
 			}
 		}
 	}
