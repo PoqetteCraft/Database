@@ -63,7 +63,7 @@ public class Database {
 		try {
 			return connection.isValid(timeout);
 		} catch (SQLException e) {
-			plugin.getLogger().severe("Timeout value is less than 0!");
+			plugin.getLogger().severe(Messages.Console.TIMEOUT_INVALID);
 			return false;
 		}
 	}
@@ -84,10 +84,10 @@ public class Database {
 			try {
 				connection = DriverManager.getConnection(settings.getURL(), settings.getUsername(), settings.getPassword());
 				plugin.setOnline(true);
-				plugin.getLogger().info("Connected to the database!");
+				plugin.getLogger().info(Messages.Console.CONNECT_SUCCESS);
 			} catch (SQLException e) {
 				plugin.setOnline(false);
-				plugin.getLogger().severe("Could not connect to the database!");
+				plugin.getLogger().severe(Messages.Console.CONNECT_FAILURE);
 			}
 			// Now update all registered plugins
 			for (JavaPlugin pl : registeredPlugins) {
@@ -109,9 +109,9 @@ public class Database {
 		if (plugin.isOnline()) {
 			try {
 				connection.close();
-				plugin.getLogger().info("Disconnected successfully!");
+				plugin.getLogger().info(Messages.Console.DISCONNECT_SUCCESS);
 			} catch (SQLException e) {
-				plugin.getLogger().severe("Disconnection failure!");
+				plugin.getLogger().severe(Messages.Console.DISCONNECT_FAILURE);
 			}
 			// Update all plugins
 			plugin.setOnline(false);
@@ -151,7 +151,7 @@ public class Database {
 		try {
 			return connection.prepareStatement(sql);
 		} catch (SQLException e) {
-			plugin.getLogger().severe("Error creating prepared statement, please check connection!");
+			plugin.getLogger().severe(Messages.Console.PREPARED_STATEMENT_FAILURE);
 			return null;
 		}
 	}
@@ -167,7 +167,7 @@ public class Database {
 		try {
 			return connection.createStatement();
 		} catch (SQLException e) {
-			plugin.getLogger().severe("Error creating statement, please check connection!");
+			plugin.getLogger().severe(Messages.Console.STATEMENT_FAILURE);
 			return null;
 		}
 	}

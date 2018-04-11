@@ -48,11 +48,11 @@ public class DatabaseCommand implements CommandExecutor {
 			} else if (args[0].equalsIgnoreCase("plugins") || args[0].equalsIgnoreCase("pl")) {
 				plugins(sender);
 			} else {
-				sender.sendMessage(ChatColor.RED + "Unknown argument '" + args[0] + "'");
+				sender.sendMessage(Messages.Command.UNKNOWN_ARG(args[0]));
 				return false;
 			}
 		} else {
-			sender.sendMessage(ChatColor.RED + "Too many arguments!");
+			sender.sendMessage(Messages.Command.TOO_MANY_ARGS);
 			return false;
 		}
 		return true;
@@ -61,16 +61,16 @@ public class DatabaseCommand implements CommandExecutor {
 	private void reconnect(CommandSender sender) {
 		// Check current state
 		if (!plugin.isOnline()) {
-			sender.sendMessage("The database is already offline!");
+			sender.sendMessage(Messages.Command.DATABASE_ALREADY_OFFLINE);
 		} else {
 			// Attempt reconnection
 			Database.disconnect();
 			Database.connect();
 			// Read off results
 			if (plugin.isOnline()) {
-				sender.sendMessage("Reconnection successful!");
+				sender.sendMessage(Messages.Command.RECONNECT_SUCCESS);
 			} else {
-				sender.sendMessage("Reconnection unsuccessful!");
+				sender.sendMessage(Messages.Command.RECONNECT_FAILURE);
 			}
 		}
 	}
@@ -78,26 +78,26 @@ public class DatabaseCommand implements CommandExecutor {
 	private void disconnect(CommandSender sender) {
 		// Check current state
 		if (!plugin.isOnline()) {
-			sender.sendMessage("The database is already offline!");
+			sender.sendMessage(Messages.Command.DATABASE_ALREADY_OFFLINE);
 		} else {
 			// Disconnect
 			Database.disconnect();
-			sender.sendMessage("Disconnected!");
+			sender.sendMessage(Messages.Command.DISCONNECT_SUCCESS);
 		}
 	}
 
 	private void connect(CommandSender sender) {
 		// Check current state
 		if (plugin.isOnline()) {
-			sender.sendMessage("The database is already online!");
+			sender.sendMessage(Messages.Command.DATABASE_ALREADY_ONLINE);
 		} else {
 			// Attempt connection
 			Database.connect();
 			// And display the results
 			if (plugin.isOnline()) {
-				sender.sendMessage("Connection successful!");
+				sender.sendMessage(Messages.Command.CONNECT_SUCCESS);
 			} else {
-				sender.sendMessage("Connection unsuccessful!");
+				sender.sendMessage(Messages.Command.CONNECT_FAILURE);
 			}
 		}
 	}
