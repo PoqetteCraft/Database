@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -91,7 +90,7 @@ public class Database {
 			}
 			// Now update all registered plugins
 			for (JavaPlugin pl : registeredPlugins) {
-				Bukkit.getPluginManager().enablePlugin(pl);
+				pl.getPluginLoader().enablePlugin(pl);
 			}
 		}
 	}
@@ -116,7 +115,7 @@ public class Database {
 			// Update all plugins
 			plugin.setOnline(false);
 			for (JavaPlugin pl : registeredPlugins) {
-				Bukkit.getPluginManager().disablePlugin(pl);
+				pl.getPluginLoader().disablePlugin(pl);
 			}
 		}
 	}
@@ -128,13 +127,17 @@ public class Database {
 	 * This will also give the initial condition of the plugin.
 	 *
 	 * @param pl
+	 * @return true if the plugin is enabled, false if it had to be disabled
 	 */
-	public static void register(JavaPlugin pl) {
+	public static boolean register(JavaPlugin pl) {
 		registeredPlugins.add(pl);
 		if (plugin.isOnline()) {
-			pl.getPluginLoader().enablePlugin(pl);
+			plugin.getLogger().info(pl.getName() + " has been registered and is enabling");
+			return true;
 		} else {
+			plugin.getLogger().severe(pl.getName() + " has been registered but will be disabled because the server is offline");
 			pl.getPluginLoader().disablePlugin(pl);
+			return false;
 		}
 	}
 
@@ -145,13 +148,17 @@ public class Database {
 	 *
 	 * @param sql
 	 *            A string with the full statement (question marks for variables)
-	 * @return The prepared statement
+	 * @return The prepared statement (or null if the connection is invalid
 	 */
 	public static PreparedStatement prepare(String sql) {
-		try {
-			return connection.prepareStatement(sql);
-		} catch (SQLException e) {
-			plugin.getLogger().severe(Messages.Console.PREPARED_STATEMENT_FAILURE);
+		if (connection != null) {
+			try {
+				return connection.prepareStatement(sql);
+			} catch (SQLException e) {
+				plugin.getLogger().severe(Messages.Console.PREPARED_STATEMENT_FAILURE);
+				return null;
+			}
+		} else {
 			return null;
 		}
 	}
@@ -164,10 +171,14 @@ public class Database {
 	 * @return The statement
 	 */
 	public static Statement create() {
-		try {
-			return connection.createStatement();
-		} catch (SQLException e) {
-			plugin.getLogger().severe(Messages.Console.STATEMENT_FAILURE);
+		if (connection != null) {
+			try {
+				return connection.createStatement();
+			} catch (SQLException e) {
+				plugin.getLogger().severe(Messages.Console.STATEMENT_FAILURE);
+				return null;
+			}
+		} else {
 			return null;
 		}
 	}
