@@ -132,10 +132,10 @@ public class Database {
 	public static boolean register(JavaPlugin pl) {
 		registeredPlugins.add(pl);
 		if (plugin.isOnline()) {
-			plugin.getLogger().info(pl.getName() + " has been registered and is enabling");
+			plugin.getLogger().info(pl.getName() + " has been registered");
 			return true;
 		} else {
-			plugin.getLogger().severe(pl.getName() + " has been registered but will be disabled because the server is offline");
+			plugin.getLogger().warning(pl.getName() + " has been registered but will be disabled because the server is offline");
 			pl.getPluginLoader().disablePlugin(pl);
 			return false;
 		}

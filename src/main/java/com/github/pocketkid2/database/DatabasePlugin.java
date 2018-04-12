@@ -24,15 +24,20 @@ public class DatabasePlugin extends JavaPlugin {
 		saveDefaultConfig();
 		// Populate the settings class
 		settings = new Settings(getConfig());
-		// Initialize the database with the settings in the config
-		Database.initialize(this, settings);
 		// Register the command
 		getCommand("database").setExecutor(new DatabaseCommand(this));
-		// Schedule the validation task
-		ValidationTask vt = new ValidationTask(this, settings.getTimeout());
-		task = vt.runTaskTimerAsynchronously(this, 0, settings.getRepeat() * TICKS_PER_SECOND);
-		// We're done
-		getLogger().info("Done!");
+		// Initialize the database with the settings in the config
+		Database.initialize(this, settings);
+		// Check if the connection was established
+		if (online) {
+			// Schedule the validation task
+			ValidationTask vt = new ValidationTask(this, settings.getTimeout());
+			task = vt.runTaskTimerAsynchronously(this, 0, settings.getRepeat() * TICKS_PER_SECOND);
+			// Log status
+			getLogger().info("Connected and ready to register plugins!");
+		} else {
+			getLogger().warning("Not connected; Please check server and connection values");
+		}
 	}
 
 	@Override
