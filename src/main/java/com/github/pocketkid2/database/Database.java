@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -27,6 +28,14 @@ public class Database {
 	private static Connection connection;
 	// The values for connection
 	private static Settings settings;
+
+	private static void enable(JavaPlugin plugin) {
+		Bukkit.getPluginManager().enablePlugin(plugin);
+	}
+
+	private static void disable(JavaPlugin plugin) {
+		Bukkit.getPluginManager().disablePlugin(plugin);
+	}
 
 	/*
 	 * INTERNAL API
@@ -90,7 +99,7 @@ public class Database {
 			}
 			// Now update all registered plugins
 			for (JavaPlugin pl : registeredPlugins) {
-				pl.getPluginLoader().enablePlugin(pl);
+				enable(pl);
 			}
 		}
 	}
@@ -115,7 +124,7 @@ public class Database {
 			// Update all plugins
 			plugin.setOnline(false);
 			for (JavaPlugin pl : registeredPlugins) {
-				pl.getPluginLoader().disablePlugin(pl);
+				disable(pl);
 			}
 		}
 	}
@@ -136,7 +145,7 @@ public class Database {
 			return true;
 		} else {
 			plugin.getLogger().warning(pl.getName() + " has been registered but will be disabled because the server is offline");
-			pl.getPluginLoader().disablePlugin(pl);
+			disable(pl);
 			return false;
 		}
 	}

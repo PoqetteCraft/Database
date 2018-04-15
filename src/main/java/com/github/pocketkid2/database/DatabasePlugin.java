@@ -43,7 +43,9 @@ public class DatabasePlugin extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		// Cancel the validation task
-		task.cancel();
+		if (task != null) {
+			task.cancel();
+		}
 		// Disconnect if need be
 		if (online) {
 			Database.disconnect();
