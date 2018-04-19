@@ -14,7 +14,6 @@ public class ValidationTask extends BukkitRunnable {
 		status = true;
 	}
 
-	@Override
 	public void run() {
 		// Only check if the connection is supposedly online
 		if (plugin.isOnline()) {

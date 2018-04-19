@@ -13,10 +13,7 @@ public class Messages {
 		String DATABASE_ALREADY_ONLINE = "The database is already online!";
 		String DATABASE_ALREADY_OFFLINE = "The database is already offline!";
 		String TOO_MANY_ARGS = ChatColor.RED + "Too many arguments!";
-
-		static String UNKNOWN_ARG(String a) {
-			return ChatColor.RED + "Unknown argument '" + a + "'";
-		}
+		String UNKNOWN_ARG = ChatColor.RED + "Unknown argument '%s'";
 	}
 
 	public interface Console {

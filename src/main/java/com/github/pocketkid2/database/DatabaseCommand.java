@@ -20,7 +20,6 @@ public class DatabaseCommand implements CommandExecutor {
 		plugin = pl;
 	}
 
-	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length == 0) {
 			if (label.equalsIgnoreCase("connect")) {
@@ -48,7 +47,7 @@ public class DatabaseCommand implements CommandExecutor {
 			} else if (args[0].equalsIgnoreCase("plugins") || args[0].equalsIgnoreCase("pl")) {
 				plugins(sender);
 			} else {
-				sender.sendMessage(Messages.Command.UNKNOWN_ARG(args[0]));
+				sender.sendMessage(String.format(Messages.Command.UNKNOWN_ARG, args[0]));
 				return false;
 			}
 		} else {
