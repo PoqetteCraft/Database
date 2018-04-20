@@ -18,7 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author Adam
  *
  */
-public class Database {
+public final class Database {
 
 	// The instance of the main class, used for determining current status
 	private static DatabasePlugin plugin;
