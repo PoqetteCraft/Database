@@ -1,6 +1,6 @@
 package com.github.pocketkid2.database;
 
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 
 public class Messages {
 
