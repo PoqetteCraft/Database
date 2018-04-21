@@ -7,8 +7,8 @@ import java.util.Set;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -20,6 +20,7 @@ public class DatabaseCommand implements CommandExecutor {
 		plugin = pl;
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length == 0) {
 			if (label.equalsIgnoreCase("connect")) {
@@ -104,10 +105,10 @@ public class DatabaseCommand implements CommandExecutor {
 	private void plugins(CommandSender sender) {
 		// Display list of currently registered plugins
 		StringBuilder sb = new StringBuilder();
-		Set<JavaPlugin> plugins = Database.getRegisteredPlugins();
+		Set<Plugin> plugins = Database.getRegisteredPlugins();
 		sb.append(String.format("Database Plugins (%d): ", plugins.size()));
 		List<String> names = new ArrayList<String>();
-		for (JavaPlugin p : plugins) {
+		for (Plugin p : plugins) {
 			names.add((p.isEnabled() ? (ChatColor.GREEN) : (ChatColor.RED)) + p.getName());
 		}
 		sb.append(String.join(ChatColor.RESET + ", ", names));

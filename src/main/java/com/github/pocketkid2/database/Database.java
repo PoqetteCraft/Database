@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 /**
  * The main API class, used as a singleton. All API calls should be made through
@@ -23,17 +23,17 @@ public final class Database {
 	// The instance of the main class, used for determining current status
 	private static DatabasePlugin plugin;
 	// A list of all registered plugins
-	private static Set<JavaPlugin> registeredPlugins;
+	private static Set<Plugin> registeredPlugins;
 	// The database connection
 	private static Connection connection;
 	// The values for connection
 	private static Settings settings;
 
-	private static void enable(JavaPlugin plugin) {
+	private static void enable(Plugin plugin) {
 		Bukkit.getPluginManager().enablePlugin(plugin);
 	}
 
-	private static void disable(JavaPlugin plugin) {
+	private static void disable(Plugin plugin) {
 		Bukkit.getPluginManager().disablePlugin(plugin);
 	}
 
@@ -47,7 +47,7 @@ public final class Database {
 	protected static void initialize(DatabasePlugin plugin, Settings settings) {
 		Database.plugin = plugin;
 		Database.settings = settings;
-		Database.registeredPlugins = new HashSet<JavaPlugin>();
+		Database.registeredPlugins = new HashSet<Plugin>();
 		Database.connect();
 	}
 
@@ -57,7 +57,7 @@ public final class Database {
 	 * Returns a set of all registered plugins
 	 *
 	 */
-	protected static Set<JavaPlugin> getRegisteredPlugins() {
+	protected static Set<Plugin> getRegisteredPlugins() {
 		return registeredPlugins;
 	}
 
@@ -98,7 +98,7 @@ public final class Database {
 				plugin.getLogger().severe(Messages.Console.CONNECT_FAILURE);
 			}
 			// Now update all registered plugins
-			for (JavaPlugin pl : registeredPlugins) {
+			for (Plugin pl : registeredPlugins) {
 				enable(pl);
 			}
 		}
@@ -123,7 +123,7 @@ public final class Database {
 			}
 			// Update all plugins
 			plugin.setOnline(false);
-			for (JavaPlugin pl : registeredPlugins) {
+			for (Plugin pl : registeredPlugins) {
 				disable(pl);
 			}
 		}
@@ -138,7 +138,7 @@ public final class Database {
 	 * @param pl
 	 * @return true if the plugin is enabled, false if it had to be disabled
 	 */
-	public static boolean register(JavaPlugin pl) {
+	public static boolean register(Plugin pl) {
 		registeredPlugins.add(pl);
 		if (plugin.isOnline()) {
 			plugin.getLogger().info(pl.getName() + " has been registered");
